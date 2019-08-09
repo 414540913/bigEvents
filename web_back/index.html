@@ -212,23 +212,27 @@
                 - 如果点击取消，不进行跳转
       */
 
-      $('.user_center_link>a').eq(1).on('click', function () {
-        // 设置模态框进行确认(我错了，modal和confirm不一样，没有返回truefalse)
-        $('#myModal').modal();
+    $('.user_center_link>a').eq(1).on('click', function(){
+      $('#myModal').modal();
+    });
+    $('.btn-leave').on('click', function(){
+      $.post({
+        url : 'https://autumnfish.cn/big/admin/logout',
+        success : function(res){
+          location.href = 'login.html';
+        },
       });
-    
-      // 设置离开按钮的点击事件
-      $('.btn-leave').on('click', function () {
-        // 发送请求：
-        $.post({
-          url : 'https://autumnfish.cn/big/admin/logout',
-          success : function (res) {
-            // 直接进行跳转
-            location.href = 'login.html';
-          }
-        }); 
-      });
-    
+    });
+    $.get({
+      url : 'https://autumnfish.cn/big/admin/getuser',
+      success : function (res) {
+        // console.log(res);
+        if(res === 200) {
+          $('.user_info img, .user_center_link img').css('src', res.data.user_pic);
+          $('.user_info i').text(res.data.nickname);
+        }
+      }
+    });
     
     </script>
     
